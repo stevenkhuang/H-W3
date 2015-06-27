@@ -6,7 +6,7 @@ public class Node<T extends Comparable<?>> {
         this.data = data;
     }
     
-    public Node addNode(Node newNode)
+    public void addNode(Node newNode)
 	{
 		int comp = newNode.data.compareTo(data);
 		if(comp < 0)
@@ -31,7 +31,6 @@ public class Node<T extends Comparable<?>> {
 				right.addNode(newNode);
 			}
 		}
-		return this;
 		
 	}
 }
