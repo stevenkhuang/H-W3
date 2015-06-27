@@ -1,0 +1,36 @@
+import java.util.Random;
+
+public class AVLMainMethod {
+	public static void main(String[] args)
+	{	
+	AVLTree avl = new AVLTree();
+	for(int i = 0; i < 10; i++)
+	{
+	Random random = new Random();
+	int number = random.nextInt(99 - 0 + 1);
+	avl.add(number);
+	}
+	TreePrinter tp = new TreePrinter(avl);
+	tp.print("Original Tree ");
+	
+    try {
+		avl.checkBalance(avl.root);
+	} catch (Exception e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+	
+	for(int i = 0; i < 10; i++)
+	{
+	avl.remove(avl.root.data);
+	tp = new TreePrinter(avl);
+	if(avl.root == null)
+	{
+		tp.print("Tree is now empty");
+	}
+	else
+	tp.print("Deleted root: ");
+	}
+	}
+
+}
