@@ -1,0 +1,21 @@
+public class AvlNode<Integer>
+{
+        // Constructors
+    AvlNode( Integer theElement )
+    {
+        this( theElement, null, null );
+    }
+
+    AvlNode( Integer theElement, AvlNode<Integer> lt, AvlNode<Integer> rt )
+    {
+        element  = theElement;
+        left     = lt;
+        right    = rt;
+        height   = 0;
+    }
+
+    Integer           element;      // The data in the node
+    AvlNode<Integer>  left;         // Left child
+    AvlNode<Integer>  right;        // Right child
+    int               height;       // Height
+}
