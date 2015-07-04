@@ -1,0 +1,52 @@
+
+import java.util.Random;
+
+public class BSTvsAVL {
+
+	public static void main( String [ ] args )
+	{
+		int[] N;
+		N= new int[5];
+		N[0]=1000;
+		N[1]=10000;
+		N[2]=100000;
+		N[3]=1000000;
+		N[4]=10000000;
+
+		int a;
+		Random random = new Random();
+		System.out.println("BST Tree Test");
+		for(a=0; a<5;a++)
+		{
+			BinarySearchTree bst = new BinarySearchTree();
+			System.out.println( N[a] +" values");
+			long startTime = System.currentTimeMillis();
+
+			for(int i =0; i<N[a];i++)
+			{			
+				int number = random.nextInt(99 - 0 + 1);
+				bst.add(number);
+				//System.out.println("Duration: "+duration);
+			}
+			long endTime = System.currentTimeMillis();
+			long duration = (endTime - startTime); 
+			System.out.println(duration+ " ms");
+		}
+System.out.println("\nAVL Tree Test");
+		for(a=0; a<5;a++)
+		{
+			AVLT avlt = new AVLT();
+			System.out.println( N[a] +" values");
+			long startTime = System.currentTimeMillis();
+
+			for(int i =0; i<N[a];i++)
+			{			
+				int number = random.nextInt(99 - 0 + 1);
+				avlt.insert(number);
+			}
+			long endTime = System.currentTimeMillis();
+			long duration = (endTime - startTime); 
+			System.out.println(duration+ " ms");
+		}
+	}
+}
