@@ -1,4 +1,6 @@
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Random;
 
 public class BSTvsAVL {
@@ -6,47 +8,76 @@ public class BSTvsAVL {
 	public static void main( String [ ] args )
 	{
 		int[] N;
-		N= new int[5];
+		int k = 100000;
+		N= new int[4];
 		N[0]=1000;
 		N[1]=10000;
 		N[2]=100000;
 		N[3]=1000000;
-		N[4]=10000000;
+		
 
+		ArrayList<Integer> numbers = new ArrayList<Integer>();
+		for(int i = 0; i < 1000000; i++)
+		{
+			numbers.add(i);
+		}
+		ArrayList<Integer> numbers2 = new ArrayList<Integer>(numbers);
+
+		Collections.shuffle(numbers);//arraylist for insertions
+		Collections.shuffle(numbers2);//arraylist for searching
 		int a;
-		Random random = new Random();
 		System.out.println("BST Tree Test");
-		for(a=0; a<5;a++)
+		for(a=0; a<4;a++)
 		{
 			BinarySearchTree bst = new BinarySearchTree();
 			System.out.println( N[a] +" values");
-			long startTime = System.currentTimeMillis();
-
+			
+			long startTime = System.currentTimeMillis();//insertion loop
 			for(int i =0; i<N[a];i++)
-			{			
-				int number = random.nextInt(99 - 0 + 1);
-				bst.add(number);
-				//System.out.println("Duration: "+duration);
+			{	
+				bst.add(numbers.get(i));		
 			}
 			long endTime = System.currentTimeMillis();
 			long duration = (endTime - startTime); 
-			System.out.println(duration+ " ms");
+			
+			long startTime1 = System.currentTimeMillis();//searching loop
+			for(int i =0; i<N[a];i++)
+			{	
+				bst.find(numbers2.get(i));		
+			}
+			long endTime1 = System.currentTimeMillis();
+			long duration1 = (endTime1 - startTime1); 
+			
+			System.out.println("Insertion duration: "+duration+ " ms");
+			System.out.println("Searching duration: "+duration1+ " ms");
+
 		}
-System.out.println("\nAVL Tree Test");
-		for(a=0; a<5;a++)
+		System.out.println("\nAVL Tree Test");
+		for(a=0; a<4;a++)
 		{
 			AVLT avlt = new AVLT();
 			System.out.println( N[a] +" values");
-			long startTime = System.currentTimeMillis();
-
+			
+			long startTime = System.currentTimeMillis();//insertion loop
 			for(int i =0; i<N[a];i++)
 			{			
-				int number = random.nextInt(99 - 0 + 1);
-				avlt.insert(number);
+				avlt.insert(numbers.get(i));
 			}
 			long endTime = System.currentTimeMillis();
 			long duration = (endTime - startTime); 
-			System.out.println(duration+ " ms");
+			
+			long startTime1 = System.currentTimeMillis();//searching loop
+			for(int i =0; i<N[a];i++)
+			{	
+				avlt.contains(numbers2.get(i));		
+			}
+			long endTime1 = System.currentTimeMillis();
+			long duration1 = (endTime1 - startTime1); 
+			
+			System.out.println("Insertion duration: "+duration+ " ms");
+			System.out.println("Searching duration: "+duration1+ " ms");
+
 		}
+
 	}
 }
