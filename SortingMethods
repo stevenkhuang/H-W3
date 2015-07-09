@@ -1,0 +1,205 @@
+import java.util.ArrayList;
+import java.util.Collections;
+
+public class SortingMethods {
+	
+	static int insertionSortComparison = 0;
+	static int insertionSortMove = 0;
+	static int shellSortSuboptimalComparison = 0;
+	static int shellSortSuboptimalMove = 0;
+	static int shellSortKnuthComparison = 0;
+	static int shellSortKnuthMove = 0;
+	static int k = 10000;
+	
+	public static void main(String[] args)
+	{
+		
+		Integer[] iois = increasingOrder(k);
+		Integer[] dois = decreasingOrder(k);
+		Integer[] rois = randomOrder(k);
+		
+		Integer[] ioss = iois.clone();		
+		Integer[] doss = dois.clone();
+		Integer[] ross = rois.clone();
+		
+		Integer[] iosk = iois.clone();
+		Integer[] dosk = dois.clone();
+		Integer[] rosk = rois.clone();
+		
+		for(int z = 0; z < rois.length; z++)
+		{
+			System.out.print(rois[z] + " ");
+		}
+		System.out.println();
+		insertionSort(rois);
+		for(int z = 0; z < rois.length; z++)
+		{
+			System.out.print(rois[z] + " ");
+		}
+		System.out.println();
+		System.out.println(insertionSortComparison);
+		System.out.println(insertionSortMove);
+		shellSortSuboptimal(ross);
+		System.out.println(shellSortSuboptimalComparison);
+		System.out.println(shellSortSuboptimalMove);
+		shellSortKnuth(rosk);
+		System.out.println(shellSortKnuthComparison);
+		System.out.println(shellSortKnuthMove);
+		
+		
+		
+				
+	}
+	
+	public static void insertionSort(Integer[] i)
+	{
+		int j;
+		boolean comparedAlready = false;
+		boolean moved = false;
+		
+		for(int p = 1; p < i.length; p++)
+		{
+			Integer tmp = i[p];
+			insertionSortComparison++;
+			for(j = p; j > 0 && tmp.compareTo(i[j-1]) < 0; j--)
+			{
+				if(comparedAlready)
+				insertionSortComparison++;
+				
+				i[j] = i[j-1];
+				insertionSortMove++;
+				comparedAlready = true;
+				moved = true;
+			}
+			
+			i[j] = tmp;
+			if(moved)
+				insertionSortMove++;
+			moved = false;
+			
+			
+		}
+		
+		/*for(int z = 0; z < i.length; z++)
+		{
+			System.out.print(i[z] + " ");
+		}
+		System.out.println();*/
+	}
+	
+	public static void shellSortSuboptimal(Integer[] i)
+	{
+		int j;
+		boolean comparedAlready = false;
+		boolean moved = false;
+		
+		for(int h = i.length/2; h > 0; h /= 2)
+		{
+			for(int k = h; k < i.length; k++)
+			{
+				Integer tmp = i[k];
+				
+				shellSortSuboptimalComparison++;
+				for (j = k; j >= h && tmp.compareTo(i[j-h]) < 0; j -= h)
+				{
+					if(comparedAlready)
+						shellSortSuboptimalComparison++;
+						
+					i[j] = i[j-h];
+					shellSortSuboptimalMove++;
+					
+					comparedAlready = true;
+					moved = true;
+					
+				}
+				
+				i[j] = tmp;
+				if(moved)
+					shellSortSuboptimalMove++;
+				moved = false;
+	
+			}
+		}	
+		
+	}
+	
+	public static void shellSortKnuth(Integer[] i)
+	{
+		int j;
+		boolean comparedAlready = false;
+		boolean moved = false;
+	
+		int start = 1;
+		while(start < k)
+		{
+			start = (start * 3) + 1;
+		}
+		for(int h = start; h > 0; h = (h - 1)/3)
+		{
+			for(int k = h; k < i.length; k++)
+			{
+				Integer tmp = i[k];
+				
+				shellSortKnuthComparison++;
+				for (j = k; j >= h && tmp.compareTo(i[j-h]) < 0; j -= h)
+				{
+					if(comparedAlready)
+						shellSortKnuthComparison++;
+					i[j] = i[j-h];
+					
+					shellSortKnuthMove++;					
+					comparedAlready = true;
+					moved = true;
+					
+				}
+				
+				i[j] = tmp;
+				if(moved)
+					shellSortKnuthMove++;
+				moved = false;
+	
+			}
+		}	
+		
+	}
+	
+	public static Integer[] increasingOrder(int i)
+	{
+		Integer[] array = new Integer[i];
+		for(int j = 0; j < i; j++)
+		{
+			array[j] = j;
+		}
+		return array;
+	}
+	
+	public static Integer[] decreasingOrder(int i)
+	{
+		Integer[] array = new Integer[i];
+		int count = 0;
+		for(int j = i - 1; j >= 0; j--)
+		{
+			array[count] = j;
+			count++;
+		}
+		return array;
+	}
+	
+	public static Integer[] randomOrder(int i)
+	{
+		Integer[] array = new Integer[i];
+		ArrayList<Integer> randomArray = new ArrayList<Integer>();
+		for(int j = 0; j < i; j++)
+		{
+			randomArray.add(j);
+		}
+		Collections.shuffle(randomArray);
+		for(int j = 0; j < i; j++)
+		{
+			array[j] = randomArray.get(j);
+		}
+		
+		return array;
+	}
+
+}
