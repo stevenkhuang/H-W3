@@ -1,0 +1,508 @@
+package assignment4;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.Collections;
+
+public class SortingMethods {
+
+	static int insertionSortComparison = 0;
+	static int insertionSortMove = 0;
+	static int shellSortSuboptimalComparison = 0;
+	static int shellSortSuboptimalMove = 0;
+	static int shellSortKnuthComparison = 0;
+	static int shellSortKnuthMove = 0;
+	static int k = 100;
+
+	public static void main(String[] args) throws FileNotFoundException
+	{
+
+		String[] IntSet= new String[4];
+		IntSet[0]="-----Unsorted Random Unique-----";
+		IntSet[1]="-----Sorted Unique-----";
+		IntSet[2]="-----Reverse Sorted Unique-----";
+		IntSet[3]="-----All Zeros-----";
+		String a ="Algorithm";
+		String m = "Moves";
+		String c = "Comparisons";
+		String t = "Time (ms)";
+		String I = "Insertion Sort";
+		String so="Shell Sort Suboptimal";
+		String sk="Shell Sort Knuth";
+		File file= new File("C:/Users/Kareem/Documents/HW4Output.txt");//file directory
+		file.getParentFile().mkdirs();
+		PrintWriter writer = new PrintWriter(file);
+
+		/*		//insertion sort
+		Integer[] iois = increasingOrder(k);//increasing order 
+		Integer[] dois = decreasingOrder(k);//decreasing order 
+		Integer[] rois = randomOrder(k);//random order
+		//shell sort suboptimal
+		Integer[] ioss = iois.clone();		
+		Integer[] doss = dois.clone();
+		Integer[] ross = rois.clone();
+		//shell sort knuth
+		Integer[] iosk = iois.clone();
+		Integer[] dosk = dois.clone();
+		Integer[] rosk = rois.clone();
+
+		 */
+
+		System.out.println("\t\t\t\t"+IntSet[0]);
+		System.out.printf("%25s"+"%30s"+"%30s"+"%20s\n",a,m,c,t);//HEADER BAR
+		System.out.println("-----------------------------------------------------------------------------------------------------------");
+		for(int i=0;i<4;i++)
+		{
+			Integer[] rois = randomOrder(k);
+			Integer[] ross = rois.clone();
+			Integer[] rosk = rois.clone();
+
+
+			System.out.println("K= "+k);
+			//START OF RANDOM ORDER
+			long startTime1 = System.currentTimeMillis();
+			insertionSort(rois);
+			long estimatedTime1 = System.currentTimeMillis() - startTime1;
+			System.out.printf("%25s"+"%30d"+"%30d"+"%20d\n", I,insertionSortMove,insertionSortComparison, estimatedTime1);
+			//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+			long startTime2 = System.currentTimeMillis();
+			shellSortSuboptimal(ross);
+			long estimatedTime2 = System.currentTimeMillis() - startTime2;
+			System.out.printf("%25s"+"%30d"+"%30d"+"%20d\n", so,shellSortSuboptimalMove,shellSortSuboptimalComparison, estimatedTime2);
+			//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+			long startTime3 = System.currentTimeMillis();
+			shellSortKnuth(rosk);		
+			long estimatedTime3 = System.currentTimeMillis() - startTime3;
+			System.out.printf("%25s"+"%30d"+"%30d"+"%20d\n", sk,shellSortKnuthMove,shellSortKnuthComparison, estimatedTime3);
+			//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+			k=k*10;
+			insertionSortMove =0;insertionSortComparison=0;shellSortSuboptimalMove=0;shellSortSuboptimalComparison=0;shellSortKnuthMove=0;shellSortKnuthComparison=0;
+		}
+
+		k=100;
+		System.out.println("\n\t\t\t\t"+IntSet[1]);
+		System.out.printf("%25s"+"%30s"+"%30s"+"%20s\n",a,m,c,t);//HEADER BAR
+		System.out.println("-----------------------------------------------------------------------------------------------------------");
+
+		for(int i=0;i<4;i++)
+		{
+			System.out.println("K= "+k);
+			Integer[] iois = increasingOrder(k);
+			Integer[] ioss = iois.clone();	
+			Integer[] iosk = iois.clone();
+			//START OF INCREASING ORDER (SORTED)
+
+			long startTime = System.currentTimeMillis();
+			insertionSort(iois);
+			long estimatedTime = System.currentTimeMillis() - startTime;
+			System.out.printf("%25s"+"%30d"+"%30d"+"%20d\n", I,insertionSortMove,insertionSortComparison, estimatedTime);
+			//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+			startTime = System.currentTimeMillis();
+			shellSortSuboptimal(ioss);
+			estimatedTime = System.currentTimeMillis() - startTime;
+			System.out.printf("%25s"+"%30d"+"%30d"+"%20d\n", so,shellSortSuboptimalMove,shellSortSuboptimalComparison, estimatedTime);
+			//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+			startTime = System.currentTimeMillis();
+			shellSortKnuth(iosk);
+			estimatedTime = System.currentTimeMillis() - startTime;
+			System.out.printf("%25s"+"%30d"+"%30d"+"%20d\n", sk,shellSortKnuthMove,shellSortKnuthComparison, estimatedTime);
+			k=k*10;
+			insertionSortMove =0;insertionSortComparison=0;shellSortSuboptimalMove=0;shellSortSuboptimalComparison=0;shellSortKnuthMove=0;shellSortKnuthComparison=0;
+		}
+		//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+		k=100;
+		System.out.println("\n\t\t\t\t"+IntSet[2]);
+		System.out.printf("%25s"+"%30s"+"%30s"+"%20s\n",a,m,c,t);//HEADER BAR
+		System.out.println("-----------------------------------------------------------------------------------------------------------");
+		for(int i=0;i<4;i++)
+		{
+			//START OF DECREASING ORDER(REVERSE)
+			System.out.println("K= "+k);
+			Integer[] dois = decreasingOrder(k);
+			Integer[] doss = dois.clone();
+			Integer[] dosk = dois.clone();
+
+			long startTime = System.currentTimeMillis();
+			insertionSort(dois);
+			long estimatedTime = System.currentTimeMillis() - startTime;
+			System.out.printf("%25s"+"%30d"+"%30d"+"%20d\n", I,insertionSortMove,insertionSortComparison, estimatedTime);
+			//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+			startTime = System.currentTimeMillis();
+			shellSortSuboptimal(doss);
+			estimatedTime = System.currentTimeMillis() - startTime;
+			System.out.printf("%25s"+"%30d"+"%30d"+"%20d\n", so,shellSortSuboptimalMove,shellSortSuboptimalComparison, estimatedTime);
+			//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+			startTime = System.currentTimeMillis();
+			shellSortKnuth(dosk);
+			estimatedTime = System.currentTimeMillis() - startTime;
+			System.out.printf("%25s"+"%30d"+"%30d"+"%20d\n", sk,shellSortKnuthMove,shellSortKnuthComparison, estimatedTime);
+			k=k*10;
+			insertionSortMove =0;insertionSortComparison=0;shellSortSuboptimalMove=0;shellSortSuboptimalComparison=0;shellSortKnuthMove=0;shellSortKnuthComparison=0;
+		}
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+		k=100;
+		System.out.println("\n\t\t\t\t"+IntSet[3]);
+		System.out.printf("%25s"+"%30s"+"%30s"+"%20s\n",a,m,c,t);//HEADER BAR
+		System.out.println("-----------------------------------------------------------------------------------------------------------");
+		for(int i=0;i<4;i++)
+		{
+			//START OF ZEROS
+			System.out.println("K= "+k);
+			Integer[] zis = Zeros(k);
+			Integer[] zss = zis.clone();
+			Integer[] zsk = zis.clone();
+
+			long startTime = System.currentTimeMillis();
+			insertionSort(zis);
+			long estimatedTime = System.currentTimeMillis() - startTime;
+			System.out.printf("%25s"+"%30d"+"%30d"+"%20d\n", I,insertionSortMove,insertionSortComparison, estimatedTime);
+			//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+			startTime = System.currentTimeMillis();
+			shellSortSuboptimal(zss);
+			estimatedTime = System.currentTimeMillis() - startTime;
+			System.out.printf("%25s"+"%30d"+"%30d"+"%20d\n", so,shellSortSuboptimalMove,shellSortSuboptimalComparison, estimatedTime);
+			//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+			startTime = System.currentTimeMillis();
+			shellSortKnuth(zsk);
+			estimatedTime = System.currentTimeMillis() - startTime;
+			System.out.printf("%25s"+"%30d"+"%30d"+"%20d\n", sk,shellSortKnuthMove,shellSortKnuthComparison, estimatedTime);
+			k=k*10;
+			insertionSortMove =0;insertionSortComparison=0;shellSortSuboptimalMove=0;shellSortSuboptimalComparison=0;shellSortKnuthMove=0;shellSortKnuthComparison=0;
+		}
+		
+writer.close();
+
+
+
+	}
+
+	public static void insertionSort(Integer[] i)
+	{
+		int j;
+		boolean comparedAlready = false;
+		boolean moved = false;
+
+		for(int p = 1; p < i.length; p++)
+		{
+			Integer tmp = i[p];
+			insertionSortComparison++;
+			for(j = p; j > 0 && tmp.compareTo(i[j-1]) < 0; j--)
+			{
+				if(comparedAlready)
+					insertionSortComparison++;
+
+				i[j] = i[j-1];
+				insertionSortMove++;
+				comparedAlready = true;
+				moved = true;
+			}
+
+			i[j] = tmp;
+			if(moved)
+				insertionSortMove++;
+			moved = false;
+
+
+		}
+
+
+	}
+
+	public static void shellSortSuboptimal(Integer[] i)
+	{
+		int j;
+		boolean comparedAlready = false;
+		boolean moved = false;
+
+		for(int h = i.length/2; h > 0; h /= 2)
+		{
+			for(int k = h; k < i.length; k++)
+			{
+				Integer tmp = i[k];
+
+				shellSortSuboptimalComparison++;
+				for (j = k; j >= h && tmp.compareTo(i[j-h]) < 0; j -= h)
+				{
+					if(comparedAlready)
+						shellSortSuboptimalComparison++;
+
+					i[j] = i[j-h];
+					shellSortSuboptimalMove++;
+
+					comparedAlready = true;
+					moved = true;
+
+				}
+
+				i[j] = tmp;
+				if(moved)
+					shellSortSuboptimalMove++;
+				moved = false;
+
+			}
+		}	
+	}
+
+	public static void shellSortKnuth(Integer[] i)
+	{
+		int j;
+		boolean comparedAlready = false;
+		boolean moved = false;
+
+		int start = 1;
+		while(start < k)
+		{
+			start = (start * 3) + 1;
+		}
+		for(int h = start; h > 0; h = (h - 1)/3)
+		{
+			for(int k = h; k < i.length; k++)
+			{
+				Integer tmp = i[k];
+
+				shellSortKnuthComparison++;
+				for (j = k; j >= h && tmp.compareTo(i[j-h]) < 0; j -= h)
+				{
+					if(comparedAlready)
+						shellSortKnuthComparison++;
+					i[j] = i[j-h];
+
+					shellSortKnuthMove++;					
+					comparedAlready = true;
+					moved = true;
+
+				}
+
+				i[j] = tmp;
+				if(moved)
+					shellSortKnuthMove++;
+				moved = false;
+
+			}
+		}	
+
+	}
+	
+	// QUICKSORT OPTIMAL
+	/**
+	 * Quicksort algorithm.
+	 * 
+	 * @param a
+	 *            an array of Comparable items.
+	 */
+	public static void quicksort(Integer[] a) {
+		quicksort(a, 0, a.length - 1);
+	}
+
+	private static final int CUTOFF = 10;
+
+	/**
+	 * Internal quicksort method that makes recursive calls. Uses
+	 * median-of-three partitioning and a cutoff of 10.
+	 * 
+	 * @param a
+	 *            an array of Comparable items.
+	 * @param low
+	 *            the left-most index of the subarray.
+	 * @param high
+	 *            the right-most index of the subarray.
+	 */
+	private static void quicksort(Integer[] a, int low, int high) {
+		if (low + CUTOFF > high)
+			insertionSort(a, low, high);
+		else {
+			// Sort low, middle, high
+			int middle = (low + high) / 2;
+			if (a[middle].compareTo(a[low]) < 0)
+				swapReferences(a, low, middle);
+			if (a[high].compareTo(a[low]) < 0)
+				swapReferences(a, low, high);
+			if (a[high].compareTo(a[middle]) < 0)
+				swapReferences(a, middle, high);
+
+			// Place pivot at position high - 1
+			swapReferences(a, middle, high - 1);
+			Integer pivot = a[high - 1];
+
+			// Begin partitioning
+			int i, j;
+			for (i = low, j = high - 1;;) {
+				while (a[++i].compareTo(pivot) < 0)
+					;
+				while (pivot.compareTo(a[--j]) < 0)
+					;
+				if (i >= j)
+					break;
+				swapReferences(a, i, j);
+			}
+
+			// Restore pivot
+			swapReferences(a, i, high - 1);
+
+			quicksort(a, low, i - 1); // Sort small elements
+			quicksort(a, i + 1, high); // Sort large elements
+		}
+	}
+
+	/**
+	 * Internal insertion sort routine for subarrays that is used by quicksort.
+	 * 
+	 * @param a
+	 *            an array of Comparable items.
+	 * @param low
+	 *            the left-most index of the subarray.
+	 * @param n
+	 *            the number of items to sort.
+	 */
+	private static void insertionSort(Integer[] a, int low, int high) {
+		for (int p = low + 1; p <= high; p++) {
+			Integer tmp = a[p];
+			int j;
+
+			for (j = p; j > low && tmp.compareTo(a[j - 1]) < 0; j--)
+				a[j] = a[j - 1];
+			a[j] = tmp;
+		}
+	}
+
+	public static final void swapReferences(Integer[] a, int index1, int index2) {
+		Integer tmp = a[index1];
+		a[index1] = a[index2];
+		a[index2] = tmp;
+	}
+
+	// HEAPSORT
+
+	public static void heapsort(Integer[] a) {
+		for (int i = a.length / 2; i >= 0; i--)
+			/* buildHeap */
+			percDown(a, i, a.length);
+		for (int i = a.length - 1; i > 0; i--) {
+			swapReferences(a, 0, i); /* deleteMax */
+			percDown(a, 0, i);
+		}
+	}
+
+	private static void percDown(Integer[] a, int i, int n) {
+		int child;
+		Integer tmp;
+
+		for (tmp = a[i]; leftChild(i) < n; i = child) {
+			child = leftChild(i);
+			if (child != n - 1 && a[child].compareTo(a[child + 1]) < 0)
+				child++;
+			if (tmp.compareTo(a[child]) < 0)
+				a[i] = a[child];
+			else
+				break;
+		}
+		a[i] = tmp;
+	}
+
+	private static int leftChild(int i) {
+		return 2 * i + 1;
+	}
+
+	public static Integer[] increasingOrder(int i)
+	{
+		Integer[] array = new Integer[i];
+		for(int j = 0; j < i; j++)
+		{
+			array[j] = j;
+		}
+		return array;
+	}
+	
+	//MERGESORT ARRAY	
+	public static void mergeSort(Integer[] a)
+	{
+		Integer[] tmpArray = new Integer[a.length];
+		mergeSort(a, tmpArray, 0, a.length - 1);
+	}
+	
+	private static void mergeSort(Integer[] a, Integer[] tmpArray, int left, int right)
+	{
+		if(left < right)
+		{
+			int center = (left + right)/2;
+			
+			mergeSort(a, tmpArray, left, center);
+			mergeSort(a, tmpArray, center + 1, right);
+			
+			merge(a, tmpArray, left, center+1, right);
+		}
+	}
+	
+	private static void merge(Integer[] a, Integer[] tmpArray, int leftPos, int rightPos, int rightEnd)
+	{
+		int leftEnd = rightPos - 1;
+		int tmpPos = leftPos;
+		int numElements = rightEnd - leftPos + 1;
+		
+		while(leftPos <= leftEnd && rightPos <= rightEnd)
+		{
+			if(a[leftPos].compareTo(a[rightPos]) <= 0)
+			{
+				tmpArray[tmpPos++] = a[leftPos++];
+			}
+			else
+			{
+				tmpArray[tmpPos++] = a[rightPos++];
+			}
+		}
+		
+		while(leftPos <= leftEnd)
+		{
+			tmpArray[tmpPos++] = a[leftPos++];
+		}
+		while(rightPos <= rightEnd)
+		{
+			tmpArray[tmpPos++] = a[rightPos++];
+		}
+		
+		for(int i = 0; i < numElements; i++, rightEnd--)
+		{
+			a[rightEnd] = tmpArray[rightEnd];
+		}
+	}
+
+	public static Integer[] decreasingOrder(int i)
+	{
+		Integer[] array = new Integer[i];
+		int count = 0;
+		for(int j = i - 1; j >= 0; j--)
+		{
+			array[count] = j;
+			count++;
+		}
+		return array;
+	}
+
+	public static Integer[] randomOrder(int i)
+	{
+		Integer[] array = new Integer[i];
+		ArrayList<Integer> randomArray = new ArrayList<Integer>();
+		for(int j = 0; j < i; j++)
+		{
+			randomArray.add(j);
+		}
+		Collections.shuffle(randomArray);
+		for(int j = 0; j < i; j++)
+		{
+			array[j] = randomArray.get(j);
+		}
+
+		return array;
+	}
+	public static Integer[] Zeros(int i)
+	{
+		Integer[] array =  new Integer[i];
+		for (int p=0;p<i;p++){
+			array[p]=0;
+		}
+		return array;
+	}
+
+}
