@@ -6,14 +6,22 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class SortingMethods {
+public class CopyOfSortingMethods {
 
-	static int insertionSortComparison = 0;
-	static int insertionSortMove = 0;
-	static int shellSortSuboptimalComparison = 0;
-	static int shellSortSuboptimalMove = 0;
-	static int shellSortKnuthComparison = 0;
-	static int shellSortKnuthMove = 0;
+	static long insertionSortComparison = 0;
+	static long insertionSortMove = 0;
+	static long shellSortSuboptimalComparison = 0;
+	static long shellSortSuboptimalMove = 0;
+	static long shellSortKnuthComparison = 0;
+	static long shellSortKnuthMove = 0;
+	static long quicksortSubComparison = 0;
+	static long quicksortSubMove = 0;
+	static long quicksortOptComparison = 0;
+	static long quicksortOptMove = 0;
+	static long heapsortComparison = 0;
+	static long heapsortMove = 0;
+	static long mergesortComparison = 0;
+	static long mergesortMove = 0;
 	static int k = 100;
 
 	public static void main(String[] args) throws FileNotFoundException
@@ -31,6 +39,10 @@ public class SortingMethods {
 		String I = "Insertion Sort";
 		String so="Shell Sort Suboptimal";
 		String sk="Shell Sort Knuth";
+		String qo = "Quick Sort Optimal";
+		String qs = "Quick Sort Suboptimal";
+		String hs = "Heap Sort";
+		String ms = "Merge Sort";
 		File file= new File("C:/Users/Kareem/Documents/HW4Output.txt");//file directory
 		file.getParentFile().mkdirs();
 		PrintWriter writer = new PrintWriter(file);
@@ -58,7 +70,13 @@ public class SortingMethods {
 			Integer[] rois = randomOrder(k);
 			Integer[] ross = rois.clone();
 			Integer[] rosk = rois.clone();
+			Integer[] qso = rois.clone();
+			Integer[] qss = rois.clone();
+			Integer[] rohs = rois.clone();
+			Integer[] roms = rois.clone();
 
+			
+				
 
 			System.out.println("K= "+k);
 			//START OF RANDOM ORDER
@@ -77,8 +95,33 @@ public class SortingMethods {
 			long estimatedTime3 = System.currentTimeMillis() - startTime3;
 			System.out.printf("%25s"+"%30d"+"%30d"+"%20d\n", sk,shellSortKnuthMove,shellSortKnuthComparison, estimatedTime3);
 			//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+			long startTime4 = System.currentTimeMillis();
+			quicksortOpt(qso);		
+			/*if(k < 101)
+				for(int z = 0; z < qso.length; z++)
+					System.out.print(qso[z] + " ");*/
+			long estimatedTime4 = System.currentTimeMillis() - startTime4;
+			System.out.printf("%25s"+"%30d"+"%30d"+"%20d\n", qo,quicksortOptMove,quicksortOptComparison, estimatedTime4);
+			//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+			long startTime5 = System.currentTimeMillis();
+			quicksortSub(qss);		
+			long estimatedTime5 = System.currentTimeMillis() - startTime5;
+			System.out.printf("%25s"+"%30d"+"%30d"+"%20d\n", qs,quicksortSubMove,quicksortSubComparison, estimatedTime5);
+			//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+			long startTime = System.currentTimeMillis();
+			heapsort(rohs);		
+			long estimatedTime = System.currentTimeMillis() - startTime;
+			System.out.printf("%25s"+"%30d"+"%30d"+"%20d\n", hs,heapsortMove,heapsortComparison, estimatedTime);
+			//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+			startTime = System.currentTimeMillis();
+			mergeSort(roms);		
+			estimatedTime = System.currentTimeMillis() - startTime;
+			System.out.printf("%25s"+"%30d"+"%30d"+"%20d\n", ms,mergesortMove,mergesortComparison, estimatedTime);
+			//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 			k=k*10;
 			insertionSortMove =0;insertionSortComparison=0;shellSortSuboptimalMove=0;shellSortSuboptimalComparison=0;shellSortKnuthMove=0;shellSortKnuthComparison=0;
+			quicksortOptMove = 0; quicksortOptComparison = 0; quicksortSubMove = 0; quicksortSubComparison = 0; heapsortComparison = 0; heapsortMove = 0;
+			mergesortComparison = 0; mergesortMove = 0;
 		}
 
 		k=100;
@@ -92,6 +135,10 @@ public class SortingMethods {
 			Integer[] iois = increasingOrder(k);
 			Integer[] ioss = iois.clone();	
 			Integer[] iosk = iois.clone();
+			Integer[] ioqo = iois.clone();	
+			Integer[] ioqs = iois.clone();
+			Integer[] iohs = iois.clone();
+			Integer[] ioms = iois.clone();
 			//START OF INCREASING ORDER (SORTED)
 
 			long startTime = System.currentTimeMillis();
@@ -108,10 +155,33 @@ public class SortingMethods {
 			shellSortKnuth(iosk);
 			estimatedTime = System.currentTimeMillis() - startTime;
 			System.out.printf("%25s"+"%30d"+"%30d"+"%20d\n", sk,shellSortKnuthMove,shellSortKnuthComparison, estimatedTime);
+			//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+			startTime = System.currentTimeMillis();
+			quicksortOpt(ioqo);	
+			estimatedTime = System.currentTimeMillis() - startTime;
+			System.out.printf("%25s"+"%30d"+"%30d"+"%20d\n", qo,quicksortOptMove,quicksortOptComparison, estimatedTime);
+			//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+			startTime = System.currentTimeMillis();
+			quicksortSub(ioqs);		
+			estimatedTime = System.currentTimeMillis() - startTime;
+			System.out.printf("%25s"+"%30d"+"%30d"+"%20d\n", qs,quicksortSubMove,quicksortSubComparison, estimatedTime);
+			//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+			startTime = System.currentTimeMillis();
+			heapsort(iohs);		
+			estimatedTime = System.currentTimeMillis() - startTime;
+			System.out.printf("%25s"+"%30d"+"%30d"+"%20d\n", hs,heapsortMove,heapsortComparison, estimatedTime);
+			//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+			startTime = System.currentTimeMillis();
+			mergeSort(ioms);		
+			estimatedTime = System.currentTimeMillis() - startTime;
+			System.out.printf("%25s"+"%30d"+"%30d"+"%20d\n", ms,mergesortMove,mergesortComparison, estimatedTime);
+			//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 			k=k*10;
 			insertionSortMove =0;insertionSortComparison=0;shellSortSuboptimalMove=0;shellSortSuboptimalComparison=0;shellSortKnuthMove=0;shellSortKnuthComparison=0;
+			quicksortOptMove = 0; quicksortOptComparison = 0; quicksortSubMove = 0; quicksortSubComparison = 0; heapsortComparison = 0; heapsortMove = 0;
+			mergesortComparison = 0; mergesortMove = 0;
 		}
-		//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+		//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 		k=100;
 		System.out.println("\n\t\t\t\t"+IntSet[2]);
 		System.out.printf("%25s"+"%30s"+"%30s"+"%20s\n",a,m,c,t);//HEADER BAR
@@ -123,6 +193,10 @@ public class SortingMethods {
 			Integer[] dois = decreasingOrder(k);
 			Integer[] doss = dois.clone();
 			Integer[] dosk = dois.clone();
+			Integer[] doqo = dois.clone();
+			Integer[] doqs = dois.clone();
+			Integer[] dohs = dois.clone();
+			Integer[] doms = dois.clone();
 
 			long startTime = System.currentTimeMillis();
 			insertionSort(dois);
@@ -138,8 +212,31 @@ public class SortingMethods {
 			shellSortKnuth(dosk);
 			estimatedTime = System.currentTimeMillis() - startTime;
 			System.out.printf("%25s"+"%30d"+"%30d"+"%20d\n", sk,shellSortKnuthMove,shellSortKnuthComparison, estimatedTime);
+			//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+			startTime = System.currentTimeMillis();
+			quicksortOpt(doqo);		
+			estimatedTime = System.currentTimeMillis() - startTime;
+			System.out.printf("%25s"+"%30d"+"%30d"+"%20d\n", qo,quicksortOptMove,quicksortOptComparison, estimatedTime);
+			//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+			startTime = System.currentTimeMillis();
+			quicksortSub(doqs);		
+			estimatedTime = System.currentTimeMillis() - startTime;
+			System.out.printf("%25s"+"%30d"+"%30d"+"%20d\n", qs,quicksortSubMove,quicksortSubComparison, estimatedTime);
+			//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+			startTime = System.currentTimeMillis();
+			heapsort(dohs);		
+			estimatedTime = System.currentTimeMillis() - startTime;
+			System.out.printf("%25s"+"%30d"+"%30d"+"%20d\n", hs,heapsortMove,heapsortComparison, estimatedTime);
+			//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+			startTime = System.currentTimeMillis();
+			mergeSort(doms);		
+			estimatedTime = System.currentTimeMillis() - startTime;
+			System.out.printf("%25s"+"%30d"+"%30d"+"%20d\n", ms,mergesortMove,mergesortComparison, estimatedTime);
+			//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 			k=k*10;
 			insertionSortMove =0;insertionSortComparison=0;shellSortSuboptimalMove=0;shellSortSuboptimalComparison=0;shellSortKnuthMove=0;shellSortKnuthComparison=0;
+			quicksortOptMove = 0; quicksortOptComparison = 0; quicksortSubMove = 0; quicksortSubComparison = 0; heapsortComparison = 0; heapsortMove = 0;
+			mergesortComparison = 0; mergesortMove = 0;
 		}
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 		k=100;
@@ -153,6 +250,10 @@ public class SortingMethods {
 			Integer[] zis = Zeros(k);
 			Integer[] zss = zis.clone();
 			Integer[] zsk = zis.clone();
+			Integer[] zqo = zis.clone();
+			Integer[] zqs = zis.clone();
+			Integer[] zhs = zis.clone();
+			Integer[] zms = zis.clone();
 
 			long startTime = System.currentTimeMillis();
 			insertionSort(zis);
@@ -168,8 +269,31 @@ public class SortingMethods {
 			shellSortKnuth(zsk);
 			estimatedTime = System.currentTimeMillis() - startTime;
 			System.out.printf("%25s"+"%30d"+"%30d"+"%20d\n", sk,shellSortKnuthMove,shellSortKnuthComparison, estimatedTime);
+			//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+			startTime = System.currentTimeMillis();
+			quicksortOpt(zqo);		
+			estimatedTime = System.currentTimeMillis() - startTime;
+			System.out.printf("%25s"+"%30d"+"%30d"+"%20d\n", qo,quicksortOptMove,quicksortOptComparison, estimatedTime);
+			//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+			startTime = System.currentTimeMillis();
+			quicksortSub(zqs);		
+			estimatedTime = System.currentTimeMillis() - startTime;
+			System.out.printf("%25s"+"%30d"+"%30d"+"%20d\n", qs,quicksortSubMove,quicksortSubComparison, estimatedTime);
+			//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+			startTime = System.currentTimeMillis();
+			heapsort(zhs);		
+			estimatedTime = System.currentTimeMillis() - startTime;
+			System.out.printf("%25s"+"%30d"+"%30d"+"%20d\n", hs,heapsortMove,heapsortComparison, estimatedTime);
+			//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+			startTime = System.currentTimeMillis();
+			mergeSort(zms);		
+			estimatedTime = System.currentTimeMillis() - startTime;
+			System.out.printf("%25s"+"%30d"+"%30d"+"%20d\n", ms,mergesortMove,mergesortComparison, estimatedTime);
+			//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 			k=k*10;
 			insertionSortMove =0;insertionSortComparison=0;shellSortSuboptimalMove=0;shellSortSuboptimalComparison=0;shellSortKnuthMove=0;shellSortKnuthComparison=0;
+			quicksortOptMove = 0; quicksortOptComparison = 0; quicksortSubMove = 0; quicksortSubComparison = 0; heapsortComparison = 0; heapsortMove = 0;
+			mergesortComparison = 0; mergesortMove = 0;
 		}
 		
 writer.close();
@@ -292,8 +416,8 @@ writer.close();
 	 * @param a
 	 *            an array of Comparable items.
 	 */
-	public static void quicksort(Integer[] a) {
-		quicksort(a, 0, a.length - 1);
+	public static void quicksortOpt(Integer[] a) {
+		quicksortOpt(a, 0, a.length - 1);
 	}
 
 	private static final int CUTOFF = 10;
@@ -309,25 +433,40 @@ writer.close();
 	 * @param high
 	 *            the right-most index of the subarray.
 	 */
-	private static void quicksort(Integer[] a, int low, int high) {
-		if (low + CUTOFF > high)
-			insertionSort(a, low, high);
-		else {
+	private static void quicksortOpt(Integer[] a, int low, int high) {
+		//if (low + CUTOFF > high)
+			//insertionSort(a, low, high);
+		//else {
 			// Sort low, middle, high
+		if(low <= high)
+		{
 			int middle = (low + high) / 2;
 			if (a[middle].compareTo(a[low]) < 0)
+			{
 				swapReferences(a, low, middle);
+				quicksortOptMove += 2;
+			}
 			if (a[high].compareTo(a[low]) < 0)
+			{
 				swapReferences(a, low, high);
+				quicksortOptMove += 2;
+			}
 			if (a[high].compareTo(a[middle]) < 0)
+			{
 				swapReferences(a, middle, high);
-
+				quicksortOptMove += 2;
+			}
+			
+			quicksortOptComparison += 3;
+			
 			// Place pivot at position high - 1
-			swapReferences(a, middle, high - 1);
-			Integer pivot = a[high - 1];
+			swapReferences(a, middle, high);
+			quicksortOptMove += 2;
+			
+			Integer pivot = a[high];
 
 			// Begin partitioning
-			int i, j;
+			/*int i, j;
 			for (i = low, j = high - 1;;) {
 				while (a[++i].compareTo(pivot) < 0)
 					;
@@ -336,13 +475,36 @@ writer.close();
 				if (i >= j)
 					break;
 				swapReferences(a, i, j);
-			}
+			}*/
+			int i = low-1;
+		    int j = high;
+		    
+		    while (i < j) {
+		        do {
+		            i++;
+		            quicksortOptComparison++;
+		        } while ((i <= high) && a[i].compareTo(pivot) < 0);
+		        //quicksortOptComparison++;
+
+		        do {
+		            j--;
+		            quicksortOptComparison++;
+		        } while ((j >= low)  && a[j].compareTo(pivot) > 0);
+		        //quicksortOptComparison++;
+		        
+		        if (i < j) {
+		            swapReferences(a, i, j);
+		            quicksortOptMove += 2;
+		        }
+		    }
+
 
 			// Restore pivot
-			swapReferences(a, i, high - 1);
+			swapReferences(a, i, high);
+			quicksortOptMove += 2;
 
-			quicksort(a, low, i - 1); // Sort small elements
-			quicksort(a, i + 1, high); // Sort large elements
+			quicksortOpt(a, low, i - 1); // Sort small elements
+			quicksortOpt(a, i + 1, high); // Sort large elements
 		}
 	}
 
@@ -366,6 +528,66 @@ writer.close();
 			a[j] = tmp;
 		}
 	}
+	
+	// QUICKSORT SUBOPTIMAL
+		/**
+		 * Quicksort algorithm.
+		 * 
+		 * @param a
+		 *            an array of Comparable items.
+		 */
+		
+	public static void quicksortSub(Integer[] a) {
+		quicksortSub(a, 0, a.length - 1);
+	}
+
+		/**
+		 * Internal quicksort method that makes recursive calls. Uses
+		 * median-of-three partitioning and a cutoff of 10.
+		 * 
+		 * @param a
+		 *            an array of Comparable items.
+		 * @param low
+		 *            the left-most index of the subarray.
+		 * @param high
+		 *            the right-most index of the subarray.
+		 */
+		private static void quicksortSub(Integer[] a, int low, int high) {
+			if(low <= high)
+			{			
+		
+				swapReferences(a, low, high);
+				quicksortSubMove += 2;
+				Integer pivot = a[high];
+
+				// Begin partitioning
+				int i = low-1;
+			    int j = high;
+			    
+			    while (i < j) {
+			        do {
+			            i++;
+			            quicksortSubComparison++;
+			        } while ((i <= high) && a[i].compareTo(pivot) < 0);
+
+			        do {
+			            j--;
+			            quicksortSubComparison++;
+			        } while ((j >= low)  && a[j].compareTo(pivot) > 0);
+			        
+			        if (i < j) {
+			            swapReferences(a, i, j);
+			            quicksortSubMove+=2;
+			        }
+			    }
+			        
+				// Restore pivot
+			    swapReferences(a, i, high); 
+			    quicksortSubMove += 2;
+				quicksortSub(a, low, i - 1); // Sort small elements
+				quicksortSub(a, i + 1, high); // Sort large elements
+			}
+		}
 
 	public static final void swapReferences(Integer[] a, int index1, int index2) {
 		Integer tmp = a[index1];
@@ -380,25 +602,46 @@ writer.close();
 			/* buildHeap */
 			percDown(a, i, a.length);
 		for (int i = a.length - 1; i > 0; i--) {
+			ArrayList<Integer> p = new ArrayList<>();
+	         p.add(0);
+	         p.add(i);
 			swapReferences(a, 0, i); /* deleteMax */
+			heapsortMove +=2;
 			percDown(a, 0, i);
 		}
 	}
 
 	private static void percDown(Integer[] a, int i, int n) {
 		int child;
+		int iSave = i;
 		Integer tmp;
 
+		ArrayList<Integer> p = new ArrayList<>();
+        p.add(i);
 		for (tmp = a[i]; leftChild(i) < n; i = child) {
 			child = leftChild(i);
+			heapsortComparison++;
 			if (child != n - 1 && a[child].compareTo(a[child + 1]) < 0)
+			{
 				child++;
+			}
+			heapsortComparison++;
 			if (tmp.compareTo(a[child]) < 0)
+			{
 				a[i] = a[child];
+				p.add(child);
+				heapsortMove++;
+			}
 			else
+			{
 				break;
+			}
 		}
+		heapsortComparison+=4;
+		if (i != iSave) {
 		a[i] = tmp;
+		heapsortMove++;
+		}
 	}
 
 	private static int leftChild(int i) {
@@ -443,27 +686,33 @@ writer.close();
 		
 		while(leftPos <= leftEnd && rightPos <= rightEnd)
 		{
+			mergesortComparison++;
 			if(a[leftPos].compareTo(a[rightPos]) <= 0)
 			{
+				mergesortMove++;
 				tmpArray[tmpPos++] = a[leftPos++];
 			}
 			else
 			{
+				mergesortMove++;
 				tmpArray[tmpPos++] = a[rightPos++];
 			}
 		}
 		
 		while(leftPos <= leftEnd)
 		{
+			mergesortMove++;
 			tmpArray[tmpPos++] = a[leftPos++];
 		}
 		while(rightPos <= rightEnd)
 		{
+			mergesortMove++;
 			tmpArray[tmpPos++] = a[rightPos++];
 		}
 		
 		for(int i = 0; i < numElements; i++, rightEnd--)
 		{
+			mergesortMove++;
 			a[rightEnd] = tmpArray[rightEnd];
 		}
 	}
