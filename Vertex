@@ -1,0 +1,28 @@
+package disjointsetsexample;
+
+import java.util.LinkedList;
+import java.util.Queue;
+
+
+public class Vertex {
+	    public String data;
+	    public int topNum;
+	    public double dist;
+	    public int inDegree = 0;
+	    //boolean known;
+	    Queue<Vertex> adjacentVertex = new LinkedList<Vertex>( );
+
+	    Vertex path;
+		
+	    
+	    public void addAdjNode(final Vertex child){
+	        adjacentVertex.add(child);
+	        child.inDegree++;
+	    }
+
+	    public Vertex(String data) {
+	        this.data = data;
+	    }
+	
+
+}
