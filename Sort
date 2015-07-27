@@ -1,0 +1,91 @@
+package disjointsetsexample;
+
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.Queue;
+
+
+public class Sort {
+	
+	 
+	 
+ public static void main(String[] args) {
+	       	Graph g = new Graph();
+	        g.numOfVertices= 11;
+
+	    Vertex s = new Vertex("s");
+	    Vertex A = new Vertex("A");
+	    Vertex G = new Vertex("G");
+	    Vertex D = new Vertex("D");
+	    Vertex B = new Vertex("B");
+	    Vertex E = new Vertex("E");
+	    Vertex H = new Vertex("H");
+	    Vertex C = new Vertex("C");
+	    Vertex F = new Vertex("F");
+	    Vertex I = new Vertex("I");
+	    Vertex t = new Vertex("t");
+
+	    s.addAdjNode(A);
+	    //A.inDegree++;
+	    s.addAdjNode(G);
+	    //G.inDegree++;
+	    s.addAdjNode(D);
+	   // D.inDegree++;
+	    A.addAdjNode(E);
+	   // E.inDegree++;
+	    A.addAdjNode(B);
+	   // B.inDegree++;
+	    B.addAdjNode(C);
+	    //C.inDegree++;
+	    C.addAdjNode(t);
+	    //t.inDegree++;
+	    G.addAdjNode(D);
+	   // D.inDegree++;    
+	    G.addAdjNode(H);
+	   // H.inDegree++; 
+	    H.addAdjNode(E);
+	   // E.inDegree++;
+	    H.addAdjNode(I);
+	   // I.inDegree++;
+	    I.addAdjNode(F);
+	   // F.inDegree++;    
+	    I.addAdjNode(t);
+	   // t.inDegree++; 
+	    D.addAdjNode(A);
+	   // A.inDegree++;
+	    D.addAdjNode(E);
+	   // E.inDegree++;
+	    E.addAdjNode(C);
+	   // C.inDegree++;    
+	    E.addAdjNode(F);
+	   // F.inDegree++; 
+	    E.addAdjNode(I);
+	   // I.inDegree++;
+	    F.addAdjNode(C);
+	   // C.inDegree++;
+	    F.addAdjNode(t);
+	   // t.inDegree++;    
+
+	    g.vertices.add(s);
+	    g.vertices.add(A);
+	    g.vertices.add(B);
+	    g.vertices.add(C);
+	    g.vertices.add(D);
+	    g.vertices.add(E);
+	    g.vertices.add(F);
+	    g.vertices.add(G);
+	    g.vertices.add(H);
+	    g.vertices.add(I);
+	    g.vertices.add(t);
+
+
+	    System.out.println("Now calling the topologial sorts");
+
+	    g.topologicalSort();
+
+
+
+	    }
+	
+
+}
