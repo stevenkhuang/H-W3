@@ -1,0 +1,123 @@
+package disjointsetsexample;
+
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.Queue;
+
+
+public class Graph {
+	
+	public static int numOfVertices;
+    static Queue<Vertex> vertices = new LinkedList<Vertex>();
+    static Double INFINITY = Double.POSITIVE_INFINITY;
+    static int count = 1;
+    
+	public static void  topologicalSort() {
+		 
+        Queue<Vertex> q = new LinkedList<Vertex>();
+        int counter = 0;
+        for(Vertex m : vertices){
+            if(m.inDegree==0){
+                //++counter;
+                q.add(m);
+                //System.out.println(m.data);
+            }
+        }
+        
+        while(!q.isEmpty()) {
+            Vertex v = q.remove();
+
+            v.topNum = counter++;
+            //System.out.println(m.data);
+            for(Vertex w: v.adjacentVertex){
+                if(--w.inDegree == 0){
+                	//System.out.println(w.data);
+                    q.add(w);
+                    topoPrintTable(v.data,w.data);
+                    
+                  // ++counter;
+                }
+            }
+
+        }
+        //for(Vertex w: vertices)
+        	//System.out.println(w.data);
+        if(counter != numOfVertices)
+        	System.out.println("Cycle Found");
+        
+    
+    }
+	
+	public static void unweighted(int startNode)
+	{
+		Queue<Vertex> q = new LinkedList<Vertex>();
+		
+		for(Vertex m : vertices){
+            m.dist = INFINITY;
+            }
+		Vertex s = ((LinkedList<Vertex>) vertices).get(startNode);
+		s.dist = 0;
+		printTable("Initial State");
+		
+		q.add(s);
+		
+		while(!q.isEmpty())
+		{
+			Vertex v = q.remove();
+			
+			for(Vertex w: v.adjacentVertex)
+			{
+				if(w.dist == INFINITY)
+				{
+					w.dist = v.dist + 1;
+					w.path = v;
+					q.add(w);
+				}      
+			}
+			printTable("v" + v.data + " Dequeued");
+		}
+        }
+
+	private static void printTable(String string) {
+		String v = "v";
+		//String k = "known";
+		String d = "d";
+		String p = "p";
+		
+		System.out.printf("%25s", string);
+		System.out.println();
+		System.out.printf("%25s"+"%30s"+"%20s\n",v,d,p);//HEADER BAR
+		System.out.println("-----------------------------------------------------------------------------------------------------------");
+		for(Vertex a: vertices)
+		{
+			if(a.path== null)
+		System.out.printf("%25s"+"%30s"+"%20s\n",a.data,a.dist,a.path);
+			else
+				System.out.printf("%25s"+"%30s"+"%20s\n",a.data,a.dist,a.path.data);
+		}
+		System.out.printf("%25s", string);
+		System.out.println();
+		
+	}
+	
+	private static void topoPrintTable(String enqueue, String dequeue)
+	{
+		
+		String string = "Indegree Before Dequeue # " + count; 
+		System.out.printf("%25s", string);
+		System.out.println();
+		for(Vertex v: vertices)
+		System.out.printf("%10s", "v"+v.data + "= "+ v.inDegree);
+		System.out.println();
+		System.out.printf("%10s","Enqueue: v"+ enqueue);
+		System.out.println();
+		System.out.printf("%10s","Dequeue: v"+dequeue);
+		System.out.println();
+		System.out.println("------------------------------------------------------------------------------------------------------------------------------");
+		count++;
+		
+	}
+		
+	}
+
+
