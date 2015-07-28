@@ -1,28 +1,52 @@
 package disjointsetsexample;
 
+import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.LinkedList;
 import java.util.Queue;
 
 
-public class Vertex {
+public class Vertex implements Comparable{
 	    public String data;
-	    public int topNum;
-	    public double dist;
+	   
+	    public double dist = Double.POSITIVE_INFINITY;
 	    public int inDegree = 0;
-	    //boolean known;
+	    boolean known;
+	    
 	    Queue<Vertex> adjacentVertex = new LinkedList<Vertex>( );
-
+	    Queue<Edge> edge = new LinkedList<Edge>( );
 	    Vertex path;
+	    
+	    public int compareTo(Vertex other)
+	    {
+	    	return Double.compare(dist, other.dist);
+	    }
+	    
+	    HashMap<Vertex, Integer> weightedAdjacentVertex = new HashMap<Vertex, Integer>();
 		
 	    
-	    public void addAdjNode(final Vertex child){
+	    public void addAdjNode(Vertex child){
 	        adjacentVertex.add(child);
+	        child.inDegree++;
+	    }
+	    
+	    public void addAdjNode(Vertex child, int weight){
+	        weightedAdjacentVertex.put(child, weight);
 	        child.inDegree++;
 	    }
 
 	    public Vertex(String data) {
 	        this.data = data;
 	    }
+
+
+		@Override
+		public int compareTo(Object o) {
+			// TODO Auto-generated method stub
+			return 0;
+		}
+
+		
 	
 
 }
