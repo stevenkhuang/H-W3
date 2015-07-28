@@ -1,0 +1,45 @@
+package disjointsetsexample;
+
+public class WeightedShortestPath {
+	
+	public static void main(String[] args)
+	{
+		GraphMethods weighted = new GraphMethods();
+	    
+	    weighted.numOfVertices = 7;
+	    
+	    Vertex A = new Vertex("A");
+	    Vertex G = new Vertex("G");
+	    Vertex D = new Vertex("D");
+	    Vertex B = new Vertex("B");
+	    Vertex E = new Vertex("E");
+	    Vertex C = new Vertex("C");
+	    Vertex F = new Vertex("F");
+	    
+	    A.edge.add(new Edge(B, 5));
+	    A.edge.add(new Edge(C, 3));
+	    B.edge.add(new Edge(C, 2));
+	    B.edge.add(new Edge(E, 3));
+	    B.edge.add(new Edge(G, 1));
+	    C.edge.add(new Edge(D, 7));
+	    C.edge.add(new Edge(E, 7));
+	    D.edge.add(new Edge(A, 2));
+	    D.edge.add(new Edge(F, 6));
+	    E.edge.add(new Edge(D, 2));
+	    E.edge.add(new Edge(F, 1));
+	    G.edge.add(new Edge(E, 1));
+	    
+	    weighted.vertices.add(A);
+	    weighted.vertices.add(B);
+	    weighted.vertices.add(C);
+	    weighted.vertices.add(D);
+	    weighted.vertices.add(E);
+	    weighted.vertices.add(F);
+	    weighted.vertices.add(G);
+	    
+	    weighted.dijkstra(A);
+	 	    
+	    
+	}
+
+}
