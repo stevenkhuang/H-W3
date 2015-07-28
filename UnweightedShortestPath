@@ -1,0 +1,43 @@
+package disjointsetsexample;
+
+public class UnweightedShortestPath {
+	
+	public static void main(String[] args)
+	{
+		GraphMethods unweighted = new GraphMethods();
+	    
+	    unweighted.numOfVertices = 7;
+	    
+	    Vertex A = new Vertex("A");
+	    Vertex G = new Vertex("G");
+	    Vertex D = new Vertex("D");
+	    Vertex B = new Vertex("B");
+	    Vertex E = new Vertex("E");
+	    Vertex C = new Vertex("C");
+	    Vertex F = new Vertex("F");
+	    
+	    A.addAdjNode(B);
+	    A.addAdjNode(C);
+	    B.addAdjNode(C);
+	    B.addAdjNode(E);
+	    B.addAdjNode(G);
+	    C.addAdjNode(D);
+	    C.addAdjNode(E);
+	    D.addAdjNode(A);
+	    D.addAdjNode(F);
+	    E.addAdjNode(D);
+	    E.addAdjNode(F);
+	    G.addAdjNode(E);
+	    
+	    unweighted.vertices.add(A);
+	    unweighted.vertices.add(B);
+	    unweighted.vertices.add(C);
+	    unweighted.vertices.add(D);
+	    unweighted.vertices.add(E);
+	    unweighted.vertices.add(F);
+	    unweighted.vertices.add(G);
+	    
+	    unweighted.unweighted(A);
+	}
+
+}
