@@ -1,4 +1,15 @@
-package disjointsetsexample;
+package HW6;
+
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.Queue;
+
+
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.PriorityQueue;
+import java.util.Queue;
+
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -71,7 +82,8 @@ public class GraphMethods {
                 Vertex v = e.target;
                 double weight = e.weight;
                 double distanceThroughU = u.dist + weight;
-        if (distanceThroughU < v.dist) {
+        if (distanceThroughU < v.dist) 
+        {
             vertexQueue.remove(v);
 
             v.dist = distanceThroughU ;
@@ -82,6 +94,59 @@ public class GraphMethods {
             printWeightedTable();
     }
         }
+	
+	public static void prim(Vertex root)
+	{
+		PriorityQueue<Vertex> vertexQueue = new PriorityQueue<Vertex>();
+		vertexQueue.add(root);//add the starting node
+		printPrimTable();
+		while (!vertexQueue.isEmpty()) 
+		{//do while queue is not empty
+			Vertex u = vertexQueue.poll();//retrives and remove head of queue
+			u.known = true;//set known to true
+			double currentweight = 100;//random big value
+			Vertex v=null;
+			// Visit each edge exiting u
+			for (Edge e : u.edge)
+			{
+				u.path=e.target;
+				if(!vertexQueue.contains(e.target)&&e.target.known==false)//adds all adj V to tree
+				{
+					vertexQueue.add(e.target);//makes sure there are no doubles
+				}
+				
+				//only changes when target is false and weight is less
+				if(e.target.known==false && e.weight<currentweight)
+				{
+				v = e.target;//vertex V is the adj vertex
+				currentweight = e.weight;//weight of path
+				v.known=true;//set to true so wont visit again later
+				}
+				
+			}
+			printPrimTable();
+		}
+		
+		
+	}
+	private static void printPrimTable() {
+		String v = "v";
+		String k = "known";
+		String d = "d";
+		String p = "p";
+
+		System.out.printf("%25s"+"%20s"+"%30s"+"%20s\n",v,k,d,p);//HEADER BAR
+		System.out.println("-----------------------------------------------------------------------------------------------------------");
+		for(Vertex a: vertices)
+		{
+			if(a.path== null)
+		System.out.printf("%25s"+"%20s"+"%30s"+"%20s\n",a.data,a.known,a.dist,a.path);
+			else
+				System.out.printf("%25s"+"%20s"+"%30s"+"%20s\n",a.data,a.known,a.dist,a.path.data);
+		}
+		System.out.println();
+		
+	}
 	
 	public static void unweighted(Vertex startNode)
 	{
@@ -173,7 +238,6 @@ public class GraphMethods {
 		count++;
 		
 	}
-		
+	
+	
 	}
-
-
