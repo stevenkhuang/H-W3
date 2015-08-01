@@ -1,18 +1,8 @@
-package HW6;
+package disjointsetsexample;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
-import java.util.Queue;
-
-
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.PriorityQueue;
-import java.util.Queue;
-
-
-import java.util.ArrayList;
-import java.util.LinkedList;
+import java.util.List;
 import java.util.PriorityQueue;
 import java.util.Queue;
 
@@ -79,11 +69,10 @@ public class GraphMethods {
             // Visit each edge exiting u
             for (Edge e : u.edge)
             {
-                Vertex v = e.target;
+                Vertex v = e.v;
                 double weight = e.weight;
                 double distanceThroughU = u.dist + weight;
-        if (distanceThroughU < v.dist) 
-        {
+        if (distanceThroughU < v.dist) {
             vertexQueue.remove(v);
 
             v.dist = distanceThroughU ;
@@ -94,59 +83,6 @@ public class GraphMethods {
             printWeightedTable();
     }
         }
-	
-	public static void prim(Vertex root)
-	{
-		PriorityQueue<Vertex> vertexQueue = new PriorityQueue<Vertex>();
-		vertexQueue.add(root);//add the starting node
-		printPrimTable();
-		while (!vertexQueue.isEmpty()) 
-		{//do while queue is not empty
-			Vertex u = vertexQueue.poll();//retrives and remove head of queue
-			u.known = true;//set known to true
-			double currentweight = 100;//random big value
-			Vertex v=null;
-			// Visit each edge exiting u
-			for (Edge e : u.edge)
-			{
-				u.path=e.target;
-				if(!vertexQueue.contains(e.target)&&e.target.known==false)//adds all adj V to tree
-				{
-					vertexQueue.add(e.target);//makes sure there are no doubles
-				}
-				
-				//only changes when target is false and weight is less
-				if(e.target.known==false && e.weight<currentweight)
-				{
-				v = e.target;//vertex V is the adj vertex
-				currentweight = e.weight;//weight of path
-				v.known=true;//set to true so wont visit again later
-				}
-				
-			}
-			printPrimTable();
-		}
-		
-		
-	}
-	private static void printPrimTable() {
-		String v = "v";
-		String k = "known";
-		String d = "d";
-		String p = "p";
-
-		System.out.printf("%25s"+"%20s"+"%30s"+"%20s\n",v,k,d,p);//HEADER BAR
-		System.out.println("-----------------------------------------------------------------------------------------------------------");
-		for(Vertex a: vertices)
-		{
-			if(a.path== null)
-		System.out.printf("%25s"+"%20s"+"%30s"+"%20s\n",a.data,a.known,a.dist,a.path);
-			else
-				System.out.printf("%25s"+"%20s"+"%30s"+"%20s\n",a.data,a.known,a.dist,a.path.data);
-		}
-		System.out.println();
-		
-	}
 	
 	public static void unweighted(Vertex startNode)
 	{
@@ -180,7 +116,114 @@ public class GraphMethods {
 			
 		}
         }
+	
+	public static void prim(Vertex root)
+	{
+		PriorityQueue<Vertex> vertexQueue = new PriorityQueue<Vertex>();
+		root.dist = 0;
+		vertexQueue.add(root);//add the starting node
+		printWeightedTable();
+		while (!vertexQueue.isEmpty()) 
+		{//do while queue is not empty
+			Vertex u = vertexQueue.poll();
+	        u.known = true;
 
+	            // Visit each edge exiting u
+	            for (Edge e : u.edge)
+	            {
+	                Vertex v = e.v;
+	                double weight = e.weight;
+	                double distanceThroughU = u.dist + weight;
+	        if (distanceThroughU < v.dist) {
+	            vertexQueue.remove(v);
+
+	            v.dist = distanceThroughU ;
+	            v.path = u;
+	            vertexQueue.add(v);
+	        }
+				
+			}
+			printWeightedTable();
+		}
+	}
+
+	ArrayList<Edge> kruskal(Queue<Edge> edges)
+	{
+		//DisjointSet ds = new DisjointSet(numOfVertices);
+		//Queue<Edge> pq = edges;
+		ArrayList<Edge> mst = new ArrayList<>();
+		
+	    while (!edges.isEmpty()) {
+	    	//mst.size() != numOfVertices
+	    	//System.out.print("Done");
+	    	Edge e = edges.poll();
+	    	/*for(Edge w: pq)
+	    	{
+	    		if(w.weight < e.weight)
+	    		{
+	    			e = w;
+	    		}
+	    	}
+	    	
+	    	pq.remove(e);*/
+	    	
+	        //Edge e = pq.deleteMin();  // Edge e = (u, v)
+
+	    	//System.out.println(e.u.data);
+	        Vertex uset = find(e.u);
+	        Vertex vset = find(e.v);
+			
+	        // If in different equivalence classes,
+	        // then accept the edge.
+		if (!uset.data.equals(vset.data)) {
+		    mst.add(e);
+		    union(uset, vset);
+		}
+		else
+		{
+			System.out.println("Rejected: " + e.u.data + " " + e.v.data + " Weight:" + e.weight);
+		}
+	    }
+		
+	    for(Edge k: mst)
+	    {
+	    	System.out.println(k.u.data + " " + k.v.data + " Weight:" + k.weight);
+	    }
+	    
+	    return mst;
+	}
+	
+	
+	public Vertex find(Vertex x)
+	{
+		if(x.path == null)
+		{
+			return x;
+		}
+		else
+		{
+			return find(x.path);
+		}
+	}
+	
+	public void union(Vertex v1, Vertex v2)
+	{
+		//root2 is deeper
+		if(v2.root < v1.root)
+		{
+			v1.path = v2; // make root2 the new root
+		}
+		
+		//root 1 is the same or deeper
+		else {
+			if(v1.root == v2.root)
+			{
+				v1.root--; //update height if same
+			}
+			
+			v2.path = v1;
+		}
+	}
 	private static void printUnweightedTable(String string) {
 		String v = "v";
 		String d = "d";
@@ -238,6 +281,8 @@ public class GraphMethods {
 		count++;
 		
 	}
-	
-	
+
+		
 	}
+
+
