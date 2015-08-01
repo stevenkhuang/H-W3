@@ -12,10 +12,11 @@ public class Vertex implements Comparable{
 	    public double dist = Double.POSITIVE_INFINITY;
 	    public int inDegree = 0;
 	    boolean known;
+	    int root = 0;
 	    
 	    Queue<Vertex> adjacentVertex = new LinkedList<Vertex>( );
 	    Queue<Edge> edge = new LinkedList<Edge>( );
-	    Vertex path;
+	    Vertex path = null;
 	    
 	    public int compareTo(Vertex other)
 	    {
