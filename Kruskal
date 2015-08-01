@@ -1,0 +1,56 @@
+package disjointsetsexample;
+
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.Queue;
+
+
+
+public class Kruskal {
+	public static void main(String[] args)
+	{
+	
+	GraphMethods kruskal = new GraphMethods();
+	Queue<Edge> edges = new LinkedList<Edge>();
+    
+    kruskal.numOfVertices = 7;
+    
+    Vertex V1 = new Vertex("V1");
+    Vertex V2 = new Vertex("V2");
+    Vertex V3 = new Vertex("V3");
+    Vertex V4 = new Vertex("V4");
+    Vertex V5 = new Vertex("V5");
+    Vertex V6 = new Vertex("V6");
+    Vertex V7 = new Vertex("V7");
+    
+    edges.add(new Edge(V1,V4, 1));
+    edges.add(new Edge(V6,V7, 1));
+    edges.add(new Edge(V1,V2, 2));
+    edges.add(new Edge(V3,V4, 2));
+    edges.add(new Edge(V2,V4, 3));
+    edges.add(new Edge(V1,V3, 4));
+    edges.add(new Edge(V4,V7, 4));
+    edges.add(new Edge(V3,V6, 5));
+    edges.add(new Edge(V5,V7, 6));
+    edges.add(new Edge(V4,V5, 7));
+    edges.add(new Edge(V4,V6, 8));  
+    edges.add(new Edge(V2,V5, 10));
+    
+    
+    
+    
+    
+    
+    
+    kruskal.vertices.add(V1);
+    kruskal.vertices.add(V2);
+    kruskal.vertices.add(V3);
+    kruskal.vertices.add(V4);
+    kruskal.vertices.add(V5);
+    kruskal.vertices.add(V6);
+    kruskal.vertices.add(V7);
+    
+    kruskal.kruskal(edges);
+	}
+
+}
