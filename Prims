@@ -1,3 +1,4 @@
+package disjointsetsexample;
 
 import java.util.LinkedList;
 import java.util.PriorityQueue;
@@ -19,18 +20,32 @@ public class Prims {
 		Vertex v6 = new Vertex("v6");
 		Vertex v7 = new Vertex("v7");
 		
-		v1.edge.add(new Edge(v2,2));
+		
 		v1.edge.add(new Edge(v4,1));
-		v1.edge.add(new Edge(v3,4));
-		v2.edge.add(new Edge(v4,3));
-		v2.edge.add(new Edge(v5,10));
-		v3.edge.add(new Edge(v4,2));
-		v3.edge.add(new Edge(v6,5));
-		v4.edge.add(new Edge(v5,7));
-		v4.edge.add(new Edge(v6,8));
-		v4.edge.add(new Edge(v7,4));
-		v5.edge.add(new Edge(v7,6));
+		v4.edge.add(new Edge(v1,1));
 		v6.edge.add(new Edge(v7,1));
+		v7.edge.add(new Edge(v6,1));
+		v1.edge.add(new Edge(v2,2));
+		v2.edge.add(new Edge(v1,2));
+		v4.edge.add(new Edge(v3,2));
+		v3.edge.add(new Edge(v4,2));
+		v2.edge.add(new Edge(v4,3));
+		v4.edge.add(new Edge(v2,3));
+		v1.edge.add(new Edge(v3,4));
+		v3.edge.add(new Edge(v1,4));
+		v4.edge.add(new Edge(v7,4));
+		v7.edge.add(new Edge(v4,4));
+		v3.edge.add(new Edge(v6,5));
+		v6.edge.add(new Edge(v3,5));
+		v5.edge.add(new Edge(v7,6));
+		v7.edge.add(new Edge(v5,6));
+		v4.edge.add(new Edge(v5,7));
+		v5.edge.add(new Edge(v4,7));
+		v4.edge.add(new Edge(v6,8));
+		v6.edge.add(new Edge(v4,8));
+		v2.edge.add(new Edge(v5,10));
+		v5.edge.add(new Edge(v2,10));
+		
 		
 	    a.vertices.add(v1);
 	    a.vertices.add(v2);
@@ -40,61 +55,7 @@ public class Prims {
 	    a.vertices.add(v6);
 	    a.vertices.add(v7);
 		
-	    prim(v1);
+	    a.prim(v1);
 		//printTable("Initial Table");
-	}
-	
-	
-	public static void prim(Vertex root)
-	{
-		PriorityQueue<Vertex> vertexQueue = new PriorityQueue<Vertex>();
-		vertexQueue.add(root);//add the starting node
-		printWeightedTable();
-		while (!vertexQueue.isEmpty()) 
-		{//do while queue is not empty
-			Vertex u = vertexQueue.poll();//retrives and remove head of queue
-			u.known = true;//set known to true
-			double currentweight = 100;//random big value
-			Vertex v=null;
-			// Visit each edge exiting u
-			for (Edge e : u.edge)
-			{
-				if(!vertexQueue.contains(e.target)&&e.target.known==false)//adds all adj V to tree
-				{
-					vertexQueue.add(e.target);//makes sure there are no doubles
-				}
-				
-				//only changes when target is false and weight is less
-				if(e.target.known==false && e.weight<currentweight)
-				{
-				v = e.target;//vertex V is the adj vertex
-				currentweight = e.weight;//weight of path
-				v.known=true;//set to true so wont visit again later
-				}
-				
-			}
-			printWeightedTable();
-		}
-		
-		
-	}
-	
-	private static void printWeightedTable() {
-		String v = "v";
-		String k = "known";
-		String d = "d";
-		String p = "p";
-
-		System.out.printf("%25s"+"%20s"+"%30s"+"%20s\n",v,k,d,p);//HEADER BAR
-		System.out.println("-----------------------------------------------------------------------------------------------------------");
-		for(Vertex a: vertices)
-		{
-			if(a.path== null)
-		System.out.printf("%25s"+"%20s"+"%30s"+"%20s\n",a.data,a.known,a.dist,a.path);
-			else
-				System.out.printf("%25s"+"%20s"+"%30s"+"%20s\n",a.data,a.known,a.dist,a.path.data);
-		}
-		System.out.println();
-		
 	}
 }
