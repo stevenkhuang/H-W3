@@ -1,13 +1,35 @@
 package disjointsetsexample;
 
-public class Edge {
+public class Edge implements Comparable{
 	
-	public final Vertex target;
+	public final Vertex u;
+	public final Vertex v;
 	public final double weight;
+	
 	public Edge(Vertex target, double weight)
 	{
-		this.target = target;
+		v = target;
+		u = null;
 		this.weight = weight;
 	}
+	
+	public Edge(Vertex path, Vertex target, double weight)
+	{
+		u = path;
+		v = target;
+		this.weight = weight;
+		
+	}
+	 public int compareTo(Edge other)
+	    {
+	    	return Double.compare(weight, other.weight);
+	    }
+
+	@Override
+	public int compareTo(Object o) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
 
 }
